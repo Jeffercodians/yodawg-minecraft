@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# @cmd
+up() {
+	_docker_compose up -d
+	register_ingress
+}
+
+# @cmd
+down() {
+	_docker_compose down
+	unregister_ingress
+}
+
+# @cmd
+status() {
+	_docker_compose ps
+}
+
+# @cmd
+logs() {
+	_docker_compose logs
+}
+
+# @cmd
+register_ingress() {
+	yo mc-router add_server "${SERVICE_ENV}" "${SERVICES_IP}:${SERVICE_PORT_MC}"
+}
+
+# @cmd
+unregister_ingress() {
+	yo mc-router remove_server "${SERVICE_ENV}"
+}
+
+# @cmd
+# @arg args~
+rcon() {
+	_docker_compose exec server rcon-cli \
+	       --password "${SERVICE_PASSWORD_RCON}" "${argc_args[@]}"
+}
+
+eval "$(argc --argc-eval "${0}" "${@}")"
+

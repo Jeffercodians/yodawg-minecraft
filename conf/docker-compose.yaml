@@ -1,0 +1,26 @@
+services:
+  server:
+    image: itzg/minecraft-server
+    environment:
+      EULA: "TRUE"
+      MEMORY: "${MC_MEMORY}"
+      TYPE: "VANILLA"
+      VERSION: "${MC_VERSION}"
+      MOTD: "${MC_MOTD}"
+      DIFFICULTY: "${MC_DIFFICULTY}"
+      LEVEL: "world"
+      SPAWN_PROTECTION: 0
+      ONLINE_MODE: true
+      SERVER_NAME: "${SERVICE_NAME}_${SERVICE_ENV}"
+      ENABLE_WHITELIST: true
+      JVM_OPTS: "-Dfml.readTimeout=60"
+      RCON_PASSWORD: "${SERVICE_PASSWORD_RCON}"
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      # attach a directory relative to the directory containing this compose file
+      - "${SERVICE_DATA}/minecraft:/data"
+      - "${SERVICE_DATA}/world_${MC_WORLD}:/data/world"
+    ports:
+      - "${SERVICE_PORT_MC}:25565"
