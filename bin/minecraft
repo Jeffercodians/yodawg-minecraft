@@ -2,24 +2,24 @@
 
 # @cmd
 up() {
-	_docker_compose up -d
+	docker_compose up -d
 	register_ingress
 }
 
 # @cmd
 down() {
-	_docker_compose down
+	docker_compose down
 	unregister_ingress
 }
 
 # @cmd
 status() {
-	_docker_compose ps
+	docker_compose ps
 }
 
 # @cmd
 logs() {
-	_docker_compose logs
+	docker_compose logs
 }
 
 # @cmd
